@@ -1,0 +1,1 @@
+This study aims to implement a deep learning methodology for musical genre classification. The core task involves designing a Convolutional Neural Network architecture capable of processing spectrogram representations of audio files and accurately categorizing them into one of ten predefined genres.
