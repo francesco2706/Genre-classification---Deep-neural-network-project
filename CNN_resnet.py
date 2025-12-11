@@ -100,7 +100,8 @@ def test_model(model, dataloader, device, class_names):
 # --- MAIN EXECUTION LOOP ---
 # ====================================================================
 
-if __name__ == '__main__':    
+if __name__ == '__main__': 
+    set_seed(42)
     # 1. LOAD DATA
     full_train_dataset = datasets.ImageFolder(root=train_data_dir, transform=data_transforms)
     test_dataset = datasets.ImageFolder(root=test_data_dir, transform=data_transforms)
