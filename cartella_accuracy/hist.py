@@ -9,28 +9,28 @@ cnn_lengths = ['3s', '5s', '10s']
 cnn_data = {
     'Model': ['CNN'] * 9,
     'Dataset_Length': [l for l in cnn_lengths for _ in range(3)],
-    'Metric': cnn_metrics * 3, 
+    'Metric': cnn_metrics * 3,
     'Value': (
         # 3s: Acc, F1, Rec
         [0.70, 0.70, 0.70] +
         # 5s: Acc, F1, Rec
         [0.73, 0.70, 0.70] +
         # 10s: Acc, F1, Rec
-        [0.76, 0.76, 0.76] 
+        [0.76, 0.76, 0.76]
     )
 }
 
 resnet_data = {
     'Model': ['ResNet18'] * 9,
     'Dataset_Length': [l for l in cnn_lengths for _ in range(3)],
-    'Metric': cnn_metrics * 3, 
+    'Metric': cnn_metrics * 3,
     'Value': (
         # 3s: Acc, F1, Rec
-        [0.80, 0.79, 0.80] +
-        # 5s: Acc, F1, Rec 
-        [0.80, 0.80, 0.80] +
+        [0.798, 0.79, 0.80] +
+        # 5s: Acc, F1, Rec
+        [0.806, 0.80, 0.80] +
         # 10s: Acc, F1, Rec
-        [0.72, 0.72, 0.72] 
+        [0.72, 0.72, 0.72]
     )
 }
 
@@ -38,7 +38,7 @@ resnet_data = {
 fusion_data_dict = {
     'Model': ['Late Fusion'] * 3,
     'Dataset_Length': ['5s'] * 3,
-    'Metric': cnn_metrics, 
+    'Metric': cnn_metrics,
     'Value': [
         # 5s: Acc, F1, Rec
         0.804, 0.8, 0.8
@@ -54,18 +54,18 @@ df_risultati = pd.concat([df_cnn, df_resnet, df_fusion])
 
 # Ensure the correct order of models and lengths for faceting/X-axis
 df_risultati['Dataset_Length'] = pd.Categorical(
-    df_risultati['Dataset_Length'], 
-    categories=['3s', '5s', '10s'], 
+    df_risultati['Dataset_Length'],
+    categories=['3s', '5s', '10s'],
     ordered=True
 )
 df_risultati['Model'] = pd.Categorical(
-    df_risultati['Model'], 
-    categories=['CNN', 'ResNet18', 'Late Fusion'], 
+    df_risultati['Model'],
+    categories=['CNN', 'ResNet18', 'Late Fusion'],
     ordered=True
 )
 
 #Generating the plot
-sns.set_theme(style="whitegrid", context="talk", font_scale=0.9) 
+sns.set_theme(style="whitegrid", context="talk", font_scale=0.9)
 
 colors = sns.color_palette("tab10", 3)
 
@@ -77,7 +77,7 @@ g = sns.catplot(
     hue="Metric",
     col="Model",
     palette=colors,
-    height=6.5, 
+    height=6.5,
     aspect=0.95,
     legend_out=True,
     edgecolor="gray",
@@ -86,17 +86,17 @@ g = sns.catplot(
 
 g.set_axis_labels("Audio Segment Length", "Macro Metric Value")
 g.set_titles("{col_name}")
-g.fig.suptitle("Performance Comparison Across Models and Segment Lengths", 
-               fontsize=18, 
-               fontweight='bold', 
+g.fig.suptitle("Performance Comparison Across Models and Segment Lengths",
+               fontsize=18,
+               fontweight='bold',
                y=1.03)
 
 for ax in g.axes.flat:
     ax.set_ylim(0.0, 1.0)
-    
+
     ax.set_xlabel(ax.get_xlabel(), fontsize=12)
     ax.set_ylabel(ax.get_ylabel(), fontsize=12)
-    
+
     for container in ax.containers:
         if len(container.get_children()) > 0:
             labels = [f'{v.get_height():.3f}' for v in container]
