@@ -6,9 +6,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
-# ---------------------------------------
-# Funzione: genera segmenti da 5 secondi
-# ---------------------------------------
 def get_5sec_segments(y, sr, segment_sec=5):
     segment_samples = sr * segment_sec
     segments = []
@@ -20,10 +17,6 @@ def get_5sec_segments(y, sr, segment_sec=5):
 
     return segments
 
-
-# ---------------------------------------
-# Funzione per generare spettrogrammi
-# ---------------------------------------
 def create_spectrograms(audio_path, output_dir, file_prefix, segment_sec=5):
     try:
         y, sr = librosa.load(audio_path, sr=None)
@@ -51,10 +44,6 @@ def create_spectrograms(audio_path, output_dir, file_prefix, segment_sec=5):
         plt.savefig(save_path, bbox_inches='tight', pad_inches=0, dpi=100)
         plt.close(fig)
 
-
-# ---------------------------------------
-# Funzione per generare waveform images
-# ---------------------------------------
 def create_waveforms(audio_path, output_dir, file_prefix, segment_sec=5):
     try:
         y, sr = librosa.load(audio_path, sr=None)
@@ -72,17 +61,13 @@ def create_waveforms(audio_path, output_dir, file_prefix, segment_sec=5):
 
     for i, y_segment in enumerate(segments):
 
-        # Normalizzazione
         y_segment = y_segment / (np.max(np.abs(y_segment)) + 1e-9)
 
-        # Figura stile "waveshow" pulito
         fig, ax = plt.subplots(figsize=(4, 4), dpi=150)
         fig.subplots_adjust(left=0, right=1, bottom=0, top=1)
 
-        # waveform blu identica a waveshow
         librosa.display.waveshow(y_segment, sr=sr, color="#1f77b4", linewidth=0.7, ax=ax)
 
-        # rimuovo tutto
         ax.axis('off')
         for spine in ax.spines.values():
             spine.set_visible(False)
@@ -93,10 +78,6 @@ def create_waveforms(audio_path, output_dir, file_prefix, segment_sec=5):
         plt.savefig(save_path, bbox_inches='tight', pad_inches=0)
         plt.close(fig)
 
-
-# ---------------------------------------
-# Funzione batch process
-# ---------------------------------------
 def batch_process(input_root_folder, output_root_folder_spectrogram, output_root_folder_waveform, segment_sec=5):
     valid_extensions = ('.wav', '.mp3', '.flac', '.ogg')
 
@@ -107,7 +88,6 @@ def batch_process(input_root_folder, output_root_folder_spectrogram, output_root
                 file_path = os.path.join(root, filename)
                 rel_path = os.path.relpath(root, input_root_folder)
 
-                # Creazione cartelle output
                 output_dir_spec = os.path.join(output_root_folder_spectrogram, rel_path)
                 output_dir_wave = os.path.join(output_root_folder_waveform, rel_path)
                 os.makedirs(output_dir_spec, exist_ok=True)
@@ -123,10 +103,6 @@ def batch_process(input_root_folder, output_root_folder_spectrogram, output_root
                 except Exception as e:
                     print(f"Errore critico su {filename}: {e}")
 
-
-# ---------------------------------------
-# Esecuzione
-# ---------------------------------------
 if __name__ == "__main__":
     splitted_dataset_dir = r"C:\Users\franc\Desktop\data science\PRIMO ANNO\python\final project\splitted_dataset"
 
