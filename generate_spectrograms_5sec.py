@@ -85,7 +85,7 @@ if __name__ == "__main__":
     spectrogram_output_dir = r"C:\Users\franc\Desktop\data science\PRIMO ANNO\python\final project\only_Spectrogram"
 
     if not os.path.exists(splitted_dataset_dir):
-        print(f"La cartella '{splitted_dataset_dir}' non esiste!")
+        print(f"The folder '{splitted_dataset_dir}' does not exist!")
     else:
         print("Start processing...")
 
@@ -101,4 +101,5 @@ if __name__ == "__main__":
             segment_sec=5
         )
 
-        print("Elaborazione completata!")
+        print("Done")
+
